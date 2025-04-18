@@ -25,8 +25,8 @@ def run_fact_check_stream(claim: str, session_id: str):
     output_queue = queue.Queue()
     summary= []
     sources = run_research_agent(claim)
-    print(f"[🌐] Searching web for: {claim}")
-    output_queue.put(f"[🌐] Searching web for: {claim}\n")
+    print(f"Searching web for: {claim}")
+    output_queue.put(f"🌐 Searching web for: {claim}\n")
     sources = run_research_agent(claim)
 
     def stream_resources():
@@ -34,26 +34,26 @@ def run_fact_check_stream(claim: str, session_id: str):
             print(f"Checking accessibility: {src['url']}")
             raw_text = scrape_url(src['url'])
             if raw_text.strip():
-                output_queue.put(f"[✔️] Found valid source: {src['url']}\n")
+                output_queue.put(f"✔️ Found source: {src['url']}\n")
             else:
                 output_queue.put(f"Skipping source (unreachable or empty): {src['url']}\n")
     stream_resources()
-    output_queue.put(f"[🧠] Summarizing all resources\n")
+    output_queue.put(f"\n\n🧠 Summarizing all resources : \n")
 
     def stream_summaries():
-        print(f"[🧠] Summarizing all resources")
+        print(f"Summarizing all resources")
 
         for i, src in enumerate(sources):
             summ , short_summary = summarize_url(src['url'])
             summary.append(summ)
-            output_queue.put(f"[🔍] Summary of {src['url']}:\n{short_summary}\n")
+            output_queue.put(f"🔍 Summary of {src['url']}:\n{short_summary}\n")
 
     def stream_judgments():
 
         judgments = []
-        print(f"[⚖️] Judging claim against {len(sources)} summaries")
+        print(f"Judging claim against {len(sources)} summaries")
         if len(summary)==len(sources):
-            output_queue.put(f"[⚖️] Judging claim against {len(sources)} sources\n")
+            output_queue.put(f"⚖️ Judging claim against {len(sources)} sources\n")
 
         while len(summary) < len(sources):
             pass  # Wait for summaries
@@ -71,12 +71,12 @@ def run_fact_check_stream(claim: str, session_id: str):
                 "reason": result["reason"]
             })
 
-            output_queue.put(f"[💡] Judgment for {src['url']}:\n" + \
+            output_queue.put(f"💡 Judgment for {src['url']}:\n" + \
                 f"Verdict: {result['verdict']}\n" + \
                 # f"Confidence: {result['confidence']}%\n" + \
                 f"Reason: {result['reason']}\n")
 
-        print(f"[💾] Storing results in vector DB")
+        print(f"Storing results in vector DB")
         for r in judgments:
             if r["verdict"] in {"Supports", "Refutes"}:
                 store_fact_check(
@@ -87,7 +87,7 @@ def run_fact_check_stream(claim: str, session_id: str):
                 )
 
         summary_stats = aggregate_final_verdict(judgments)
-        output_queue.put(f"[📊] Final Verdict:\n{summary_stats}\n")
+        output_queue.put(f"📊 Final Verdict:\n{summary_stats}\n")
         output_queue.put(None)  # signal end
 
 

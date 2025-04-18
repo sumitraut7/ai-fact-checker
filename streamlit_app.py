@@ -68,7 +68,7 @@ with st.sidebar:
                 "claim": None,
                 "initial_result": None,
                 "history": [],
-                "display_name": f"Check #{session_key.split('_')[1]}"
+                "display_name": f" #{session_key.split('_')[1]}"
             }
             st.session_state.active_session_key = session_key
             st.rerun()
@@ -143,7 +143,7 @@ else:
                 st.warning("Please enter a claim to check.")
     else:
         st.subheader(f"Fact-Checking: {session_data['display_name']}")
-        st.markdown(f"**Original Claim:** {session_data['claim']}")
+        st.markdown(f"**Original Claim: {session_data['claim']}** ")
         st.divider()
 
         # Show full chat history
@@ -192,4 +192,4 @@ else:
 
 # --- Footer ---
 st.sidebar.write("---")
-st.sidebar.caption("Powered by AI Agents & FastAPI")
+

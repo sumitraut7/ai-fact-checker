@@ -33,9 +33,8 @@ Retrieves similar past claims from a vector store to improve current analysis.
 
 ## 🌐 Web UI Preview
 
-![UI Screenshot Placeholder](https://via.placeholder.com/800x400.png?text=Add+your+screenshot+here)
-
----
+![image](img.png)
+![image](img_1.png)
 
 ## 🛠️ Getting Started
 
