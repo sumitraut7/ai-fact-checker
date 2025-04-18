@@ -1,0 +1,14 @@
+langchain
+llama-cpp-python
+chromadb
+requests
+rich
+ollama
+beautifulsoup4
+sentence-transformers==2.2.2
+transformers==4.43.1
+fastapi
+uvicorn
+sse-starlette
+streamlit
+langchain_community
