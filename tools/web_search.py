@@ -1,6 +1,6 @@
 import requests
 
-SERPER_API_KEY = "7723511c847e5b98735d92945ce4a0d1520b3841"
+
 # os.getenv("SERPER_API_KEY")
 # export SERPER_API_KEY="key"
 
